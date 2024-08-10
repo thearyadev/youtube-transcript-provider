@@ -1,3 +1,11 @@
+"""
+title: Keyless Weather
+author: thearyadev 
+author_url: https://github.com/thearyadev/youtube-transcript-provider
+funding_url: https://github.com/open-webui
+version: 0.0.1
+"""
+
 from typing import Awaitable, Callable, Any
 from langchain_community.document_loaders import YoutubeLoader
 import traceback
