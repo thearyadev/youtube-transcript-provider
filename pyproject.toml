@@ -9,6 +9,10 @@ readme = "README.md"
 python = "^3.11"
 requests = "^2.32.3"
 black = "^24.8.0"
+langchain = "^0.2.12"
+langchain-community = "^0.2.11"
+youtube-transcript-api = "^0.6.2"
+pytube = "^15.0.0"
 
 
 [build-system]
