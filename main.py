@@ -1,9 +1,9 @@
 """
-title: Keyless Weather
+title: Youtube Transcript Provider (Langchain Community)
 author: thearyadev 
 author_url: https://github.com/thearyadev/youtube-transcript-provider
 funding_url: https://github.com/open-webui
-version: 0.0.1
+version: 0.0.2
 """
 
 from typing import Awaitable, Callable, Any
@@ -42,7 +42,10 @@ class Tools:
                 return "The tool failed with an error. No transcript has been provided."
 
             data = YoutubeLoader.from_youtube_url(
-                youtube_url=url, add_video_info=True, language=["en", "en_auto"]
+                # video info seems to be broken
+                youtube_url=url,
+                add_video_info=False,
+                language=["en", "en_auto"],
             ).load()
 
             if not data:
@@ -66,7 +69,7 @@ class Tools:
                     },
                 }
             )
-            return f"Title: {data[0].metadata['title']}\nTranscript:\n{data[0].page_content}"
+            return f"Title: {data[0].metadata.get('title')}\nTranscript:\n{data[0].page_content}"
         except:
             await __event_emitter__(
                 {
@@ -78,3 +81,4 @@ class Tools:
                 }
             )
             return f"The tool failed with an error. No transcript has been provided.\nError Traceback: \n{traceback.format_exc()}"
+
