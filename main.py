@@ -8,7 +8,9 @@ version: 0.0.2
 
 from typing import Awaitable, Callable, Any
 from langchain_community.document_loaders import YoutubeLoader
+from langchain_community.document_loaders.youtube import TranscriptFormat
 import traceback
+import asyncio
 
 
 class Tools:
@@ -46,6 +48,8 @@ class Tools:
                 youtube_url=url,
                 add_video_info=False,
                 language=["en", "en_auto"],
+                transcript_format=TranscriptFormat.CHUNKS,
+                chunk_size_seconds=30,
             ).load()
 
             if not data:
@@ -69,7 +73,18 @@ class Tools:
                     },
                 }
             )
-            return f"Title: {data[0].metadata.get('title')}\nTranscript:\n{data[0].page_content}"
+
+            n = "\n"
+
+            text_out = ""
+            for chunk in data:
+                text_out += f"[{chunk.metadata['start_timestamp']}] {chunk.page_content.replace(n, '')}{n}"
+
+
+            print(text_out)
+
+            
+            return text_out
         except:
             await __event_emitter__(
                 {
@@ -82,3 +97,8 @@ class Tools:
             )
             return f"The tool failed with an error. No transcript has been provided.\nError Traceback: \n{traceback.format_exc()}"
 
+async def event_emitter(*args, **kwargs) -> None:
+    return None
+
+if __name__ == "__main__":
+    asyncio.run(Tools().get_youtube_transcript("https://www.youtube.com/watch?v=YIoBxXc1xtU", __event_emitter__=event_emitter)) # type: ignore
