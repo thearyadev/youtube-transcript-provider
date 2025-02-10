@@ -3,7 +3,7 @@ title: Youtube Transcript Provider (Langchain Community)
 author: thearyadev 
 author_url: https://github.com/thearyadev/youtube-transcript-provider
 funding_url: https://github.com/open-webui
-version: 0.0.2
+version: 0.0.3
 """
 
 from typing import Awaitable, Callable, Any
